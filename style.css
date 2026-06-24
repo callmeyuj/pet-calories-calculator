@@ -26,8 +26,26 @@
             color: #fff;
         }
 
+        .header-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .header-icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+        }
+
+        .header-text {
+            /* 改为居中，使 h1 和 p 都在文字块内水平居中 */
+            text-align: center;
+        }
+
         .header h1 { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
-        .header p { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+        .header p { font-size: 13px; opacity: 0.9; margin-top: 4px; }
 
         .progress-bar {
             display: flex;
@@ -39,7 +57,7 @@
             flex: 1;
             height: 4px;
             border-radius: 4px;
-            background: #eee;
+            background: #f2f0eb;
             transition: background 0.4s ease;
         }
 
