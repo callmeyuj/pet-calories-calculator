@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐾 宠物每日卡路里计算器</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐾 宠物每日卡路里计算器</h1>
+            <p>科学计算爱宠每日所需摄入能量</p>
+        </div>
+
+        <div class="progress-bar" id="progressBar"></div>
+
+        <div class="content">
+            <div class="step active" id="step-0">
+                <div class="step-title">选择宠物类型</div>
+                <div class="step-desc">请选择您要计算的宠物种类</div>
+                <div class="pet-options">
+                    <div class="pet-card" data-pet="dog">
+                        <div class="icon">🐶</div>
+                        <div class="label">犬</div>
+                    </div>
+                    <div class="pet-card" data-pet="cat">
+                        <div class="icon">🐱</div>
+                        <div class="label">猫</div>
+                    </div>
+                </div>
+                <div class="btn-row">
+                    <button class="btn btn-next" id="btnNext0" disabled data-action="next">下一步 →</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-1">
+                <div class="step-title">输入体重</div>
+                <div class="step-desc">请输入您家宝贝的体重</div>
+                <div class="weight-input-wrapper">
+                    <input type="number" class="weight-input" id="weightInput" placeholder="0.0" min="0.1" step="0.1">
+                    <span class="weight-unit">kg</span>
+                </div>
+                <div class="btn-row">
+                    <button class="btn btn-back" data-action="prev">← 上一步</button>
+                    <button class="btn btn-next" id="btnNext1" disabled data-action="next">下一步 →</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-2">
+                <div class="step-title">性别</div>
+                <div class="step-desc">请选择宝贝的性别</div>
+                <div class="options">
+                    <div class="option-btn" data-step="2" data-key="gender" data-value="male">
+                        <span class="dot"></span> ♂ 男宝
+                    </div>
+                    <div class="option-btn" data-step="2" data-key="gender" data-value="female">
+                        <span class="dot"></span> ♀ 女宝
+                    </div>
+                </div>
+                <div class="btn-row">
+                    <button class="btn btn-back" data-action="prev">← 上一步</button>
+                    <button class="btn btn-next" id="btnNext2" disabled data-action="next">下一步 →</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-3">
+                <div class="step-title">绝育状态</div>
+                <div class="step-desc">宝贝是否已绝育？</div>
+                <div class="options">
+                    <div class="option-btn" data-step="3" data-key="neutered" data-value="yes">
+                        <span class="dot"></span> 已绝育
+                    </div>
+                    <div class="option-btn" data-step="3" data-key="neutered" data-value="no">
+                        <span class="dot"></span> 未绝育
+                    </div>
+                </div>
+                <div class="btn-row">
+                    <button class="btn btn-back" data-action="prev">← 上一步</button>
+                    <button class="btn btn-next" id="btnNext3" disabled data-action="next">下一步 →</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-4">
+                <div class="step-title" id="step4Title"></div>
+                <div class="step-desc" id="step4Desc"></div>
+                <div class="options" id="step4Options"></div>
+                <div class="btn-row">
+                    <button class="btn btn-back" data-action="prev">← 上一步</button>
+                    <button class="btn btn-next" id="btnNext4" disabled data-action="next">下一步 →</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-5">
+                <div class="step-title">体重情况</div>
+                <div class="step-desc">请选择宝贝的体型状况</div>
+                <div class="options" id="bodyOptions"></div>
+                <div class="btn-row">
+                    <button class="btn btn-back" data-action="prev">← 上一步</button>
+                    <button class="btn btn-next" id="btnNext5" disabled data-action="next">下一步 →</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-6">
+                <div class="step-title">年龄段</div>
+                <div class="step-desc">请选择宝贝所在的年龄段</div>
+                <div class="options" id="ageOptions"></div>
+                <div class="btn-row">
+                    <button class="btn btn-back" data-action="prev">← 上一步</button>
+                    <button class="btn btn-next" id="btnNext6" disabled data-action="next">下一步 →</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-7">
+                <div class="step-title">怀孕与哺乳情况</div>
+                <div class="step-desc" id="pregDesc"></div>
+                <div class="options" id="pregOptions"></div>
+                <div class="btn-row">
+                    <button class="btn btn-back" data-action="prev">← 上一步</button>
+                    <button class="btn btn-next" id="btnNext7" disabled data-action="next">下一步 →</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-8">
+                <div class="step-title">术后恢复期</div>
+                <div class="step-desc" id="step8Desc">宝贝是否处于术后恢复期？</div>
+                <div class="options" id="step8Options">
+                    <div class="option-btn" data-step="8" data-key="postSurgery" data-value="spay">
+                        <span class="dot"></span> 绝育手术后一周内
+                    </div>
+                    <div class="option-btn" data-step="8" data-key="postSurgery" data-value="other">
+                        <span class="dot"></span> 其他重症术后一周内
+                    </div>
+                    <div class="option-btn" data-step="8" data-key="postSurgery" data-value="none">
+                        <span class="dot"></span> 健康状态（非术后）
+                    </div>
+                </div>
+                <div class="btn-row">
+                    <button class="btn btn-back" data-action="prev">← 上一步</button>
+                    <button class="btn btn-next" id="btnNext8" disabled data-action="next">计算结果 🎉</button>
+                </div>
+            </div>
+
+            <div class="step" id="step-9">
+                <div class="result-card">
+                    <div class="result-icon" id="resultIcon"></div>
+                    <div class="result-label">每日建议摄入热量 (MER)</div>
+                    <div class="result-value" id="resultValue"></div>
+                    <div class="result-unit">千卡 / 天</div>
+                    <div class="result-details">
+                        <div class="detail-row">
+                            <span class="detail-label">宠物类型</span>
+                            <span class="detail-value" id="detailPet"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">体重</span>
+                            <span class="detail-value" id="detailWeight"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">静息能量需求 (RER)</span>
+                            <span class="detail-value" id="detailRER"></span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">MER系数</span>
+                            <span class="detail-value" id="detailCoeff"></span>
+                        </div>
+                    </div>
+                    <div class="result-note" id="resultNote"></div>
+                    <button class="btn btn-restart" data-action="restart">🔄 重新计算</button>
+                    <p class="result-disclaimer">* 仅提供每日热量参考范围，具体摄入量按个体情况酌情调整。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>
