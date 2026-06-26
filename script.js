@@ -241,7 +241,8 @@ function renderStepOptions(stepNum) {
     if (ids.options) {
         document.getElementById(ids.options).innerHTML = config.options.map(opt => `
             <div class="option-btn" data-step="${stepNum}" data-key="${config.key}" data-value="${opt.value}">
-                <span class="dot"></span> ${opt.label}
+                <span class="dot"></span>
+                <span class="option-label">${opt.label}</span>
             </div>
         `).join('');
     }

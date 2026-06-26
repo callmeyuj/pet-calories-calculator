@@ -135,7 +135,7 @@ body {
     font-size: 15px;
     color: #212322;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
 }
 
@@ -159,6 +159,12 @@ body {
     align-items: center;
     justify-content: center;
     transition: all 0.25s ease;
+    margin-top: 2px;
+}
+
+.option-label {
+    flex: 1;
+    line-height: 1.5;
 }
 
 .option-btn.selected .dot {
