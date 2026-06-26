@@ -1,10 +1,5 @@
-// ==========================================
-// 配置区：步骤定义 & 系数规则
-// ==========================================
-
 // 动态步骤配置（步骤 4-7）
-// 每个步骤按宠物类型区分文案和选项
-// 字段说明：title(可选)/desc(可选)/key(必填)/options(必填)
+// 字段：title(可选)/desc(可选)/key(必填)/options(必填)
 const STEP_CONFIGS = {
     4: {
         dog: {
@@ -87,7 +82,7 @@ const STEP_CONFIGS = {
     }
 };
 
-// 步骤对应的 DOM 元素 ID 映射
+// DOM 元素 ID 映射
 const STEP_ELEMENT_IDS = {
     4: { title: 'step4Title', desc: 'step4Desc', options: 'step4Options' },
     5: { options: 'bodyOptions' },
@@ -96,8 +91,7 @@ const STEP_ELEMENT_IDS = {
 };
 
 // 系数计算规则链
-// 每条规则：{ name, apply: (state, prev) => {coeff, note} }
-// "继承"语义：返回 prev.coeff，note 标注继承来源
+// 继承语义：返回 prev.coeff，note 标注来源
 const COEFFICIENT_RULES = {
     dog: [
         {
@@ -202,10 +196,7 @@ const COEFFICIENT_RULES = {
     ]
 };
 
-// ==========================================
 // 状态管理
-// ==========================================
-
 const INITIAL_STATE = {
     petType: null, weight: null, gender: null, neutered: null,
     exercise: null, outdoor: null, bodyCondition: null, age: null,
@@ -215,10 +206,7 @@ const INITIAL_STATE = {
 let state = { ...INITIAL_STATE };
 let currentStep = 0;
 
-// ==========================================
 // 流程控制
-// ==========================================
-
 function getStepFlow() {
     let flow = [0, 1, 2, 3, 4, 5, 6];
     if (state.gender === 'female' && state.neutered === 'no' &&
@@ -238,10 +226,7 @@ function getStepKey(stepNum) {
     return keyMap[stepNum] || null;
 }
 
-// ==========================================
 // UI 渲染
-// ==========================================
-
 function renderStepOptions(stepNum) {
     const config = STEP_CONFIGS[stepNum]?.[state.petType];
     const ids = STEP_ELEMENT_IDS[stepNum];
@@ -328,10 +313,7 @@ function restoreSelection(stepNum) {
     }
 }
 
-// ==========================================
 // 业务逻辑
-// ==========================================
-
 function calculateCoefficient() {
     const rules = COEFFICIENT_RULES[state.petType];
     let result = { coeff: 1.0, note: '' };
@@ -354,16 +336,13 @@ function showResult() {
     document.getElementById('detailWeight').textContent = state.weight + ' kg';
     document.getElementById('detailRER').textContent = Math.round(rer) + ' 千卡';
     document.getElementById('detailCoeff').textContent = coeff.toFixed(1);
-    document.getElementById('resultNote').innerHTML =
-        '* MER = RER × 系数<br>' +
-        '* RER = 70 × ' + state.weight + '<sup>0.75</sup> = ' + Math.round(rer) + ' 千卡<br>' +
-        '* 系数推导：' + trail;
+    document.getElementById('resultNoteContent').innerHTML =
+        '* MER = RER × 推导系数<br>' +
+        '* RER = 70 × ' + state.weight + 'kg<sup>0.75</sup> = ' + Math.round(rer) + ' 千卡<br>' +
+        '* 推导系数 = ' + coeff.toFixed(1) + ' /明细/ → ' + trail;
 }
 
-// ==========================================
 // 事件处理
-// ==========================================
-
 function selectPet(type) {
     state.petType = type;
     document.querySelectorAll('.pet-card').forEach(c => c.classList.remove('selected'));
@@ -413,10 +392,7 @@ function restart() {
     showStep(0);
 }
 
-// ==========================================
 // 初始化
-// ==========================================
-
 document.querySelector('.content').addEventListener('click', function(e) {
     const petCard = e.target.closest('.pet-card');
     if (petCard && petCard.dataset.pet) {
