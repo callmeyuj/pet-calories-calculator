@@ -1,5 +1,4 @@
-// 动态步骤配置（步骤 4-7）
-// 字段：title(可选)/desc(可选)/key(必填)/options(必填)
+// ========== 动态步骤配置（步骤 4-8）==========
 const STEP_CONFIGS = {
     4: {
         dog: {
@@ -79,6 +78,26 @@ const STEP_CONFIGS = {
                 { value: 'no', label: '否' }
             ]
         }
+    },
+    8: {
+        dog: {
+            desc: '狗狗是否处于术后恢复期？',
+            key: 'postSurgery',
+            options: [
+                { value: 'spay', label: '绝育手术后一周内' },
+                { value: 'other', label: '其他重症术后一周内' },
+                { value: 'none', label: '健康状态（非术后）' }
+            ]
+        },
+        cat: {
+            desc: '猫咪是否处于术后恢复期？',
+            key: 'postSurgery',
+            options: [
+                { value: 'spay', label: '绝育手术后一周内' },
+                { value: 'other', label: '其他重症术后一周内' },
+                { value: 'none', label: '健康状态（非术后）' }
+            ]
+        }
     }
 };
 
@@ -87,11 +106,11 @@ const STEP_ELEMENT_IDS = {
     4: { title: 'step4Title', desc: 'step4Desc', options: 'step4Options' },
     5: { options: 'bodyOptions' },
     6: { options: 'ageOptions' },
-    7: { desc: 'pregDesc', options: 'pregOptions' }
+    7: { desc: 'pregDesc', options: 'pregOptions' },
+    8: { desc: 'step8Desc', options: 'step8Options' }
 };
 
-// 系数计算规则链
-// 继承语义：返回 prev.coeff，note 标注来源
+// ========== 系数计算规则链 ==========
 const COEFFICIENT_RULES = {
     dog: [
         {
@@ -196,7 +215,7 @@ const COEFFICIENT_RULES = {
     ]
 };
 
-// uki oki 产品数据
+// ========== 产品数据 ==========
 const PRODUCT_DATA = {
     dog: [
         { name: '鸡肉鳕鱼', grams: 120, kcal: 121 },
@@ -213,9 +232,9 @@ const PRODUCT_DATA = {
         { name: '平均数据', grams: 100, kcal: 119 }
     ]
 };
-const CALORIE_DEFICIT_RATIO = 0.95; // 长期零食热量缺口系数（可调整）
+const CALORIE_DEFICIT_RATIO = 0.95;
 
-// 状态管理
+// ========== 状态管理 ==========
 const INITIAL_STATE = {
     petType: null, weight: null, gender: null, neutered: null,
     exercise: null, outdoor: null, bodyCondition: null, age: null,
@@ -224,9 +243,29 @@ const INITIAL_STATE = {
 
 let state = { ...INITIAL_STATE };
 let currentStep = 0;
-let currentMER = 0; // 存储当前 MER 用于喂食量计算
+let currentMER = 0;
 
-// 流程控制
+// ========== DOM 元素缓存 ==========
+const els = {};
+
+function cacheElements() {
+    const ids = [
+        'weightInput', 'progressBar',
+        'btnNext0', 'btnNext1', 'btnNext2', 'btnNext3', 'btnNext4',
+        'btnNext5', 'btnNext6', 'btnNext7', 'btnNext8',
+        'step4Title', 'step4Desc', 'step4Options',
+        'bodyOptions', 'ageOptions', 'pregDesc', 'pregOptions',
+        'step8Desc', 'step8Options',
+        'resultIcon', 'resultValue', 'detailPet', 'detailWeight',
+        'detailRER', 'detailCoeff', 'resultNoteContent',
+        'btnFeedingCalc', 'btnBackResult',
+        'feedingIcon', 'feedingMerValue', 'suggestionBody',
+        'customCalorieInput', 'customResult'
+    ];
+    ids.forEach(id => els[id] = document.getElementById(id));
+}
+
+// ========== 流程控制 ==========
 function getStepFlow() {
     let flow = [0, 1, 2, 3, 4, 5, 6];
     if (state.gender === 'female' && state.neutered === 'no' &&
@@ -246,20 +285,16 @@ function getStepKey(stepNum) {
     return keyMap[stepNum] || null;
 }
 
-// UI 渲染
+// ========== UI 渲染 ==========
 function renderStepOptions(stepNum) {
     const config = STEP_CONFIGS[stepNum]?.[state.petType];
     const ids = STEP_ELEMENT_IDS[stepNum];
     if (!config || !ids) return;
 
-    if (config.title && ids.title) {
-        document.getElementById(ids.title).textContent = config.title;
-    }
-    if (config.desc && ids.desc) {
-        document.getElementById(ids.desc).textContent = config.desc;
-    }
+    if (config.title && ids.title) els[ids.title].textContent = config.title;
+    if (config.desc && ids.desc) els[ids.desc].textContent = config.desc;
     if (ids.options) {
-        document.getElementById(ids.options).innerHTML = config.options.map(opt => `
+        els[ids.options].innerHTML = config.options.map(opt => `
             <div class="option-btn" data-step="${stepNum}" data-key="${config.key}" data-value="${opt.value}">
                 <span class="dot"></span>
                 <span class="option-label">${opt.label}</span>
@@ -269,7 +304,7 @@ function renderStepOptions(stepNum) {
 }
 
 function buildProgressBar() {
-    const bar = document.getElementById('progressBar');
+    const bar = els.progressBar;
     const flow = getStepFlow();
     const stepCount = flow.length - 1;
     bar.innerHTML = '';
@@ -312,14 +347,10 @@ function showStep(stepNum) {
 function configureStep(stepNum) {
     if (STEP_CONFIGS[stepNum]) {
         renderStepOptions(stepNum);
-    } else if (stepNum === 8) {
-        document.getElementById('step8Desc').textContent =
-            (state.petType === 'dog' ? '狗狗' : '猫咪') + '是否处于术后恢复期？';
     } else if (stepNum === 9) {
         showResult();
     }
-
-    if ([2, 3, 4, 5, 6, 7, 8].includes(stepNum)) restoreSelection(stepNum);
+    if (getStepKey(stepNum) !== null) restoreSelection(stepNum);
 }
 
 function restoreSelection(stepNum) {
@@ -329,12 +360,12 @@ function restoreSelection(stepNum) {
         stepEl.querySelectorAll('.option-btn').forEach(btn => {
             btn.classList.toggle('selected', btn.getAttribute('data-value') === state[key]);
         });
-        const btnNext = document.getElementById('btnNext' + stepNum);
+        const btnNext = els['btnNext' + stepNum];
         if (btnNext) btnNext.disabled = false;
     }
 }
 
-// 业务逻辑
+// ========== 业务逻辑 ==========
 function calculateCoefficient() {
     const rules = COEFFICIENT_RULES[state.petType];
     let result = { coeff: 1.0, note: '' };
@@ -350,29 +381,28 @@ function showResult() {
     const { coeff, trail } = calculateCoefficient();
     const rer = 70 * Math.pow(state.weight, 0.75);
     const mer = rer * coeff;
-    currentMER = mer; // 存储 MER 供喂食量计算使用
+    currentMER = mer;
 
-    document.getElementById('resultIcon').textContent = state.petType === 'dog' ? '🐶' : '🐱';
-    document.getElementById('resultValue').textContent = Math.round(mer);
-    document.getElementById('detailPet').textContent = state.petType === 'dog' ? '犬' : '猫';
-    document.getElementById('detailWeight').textContent = state.weight + ' kg';
-    document.getElementById('detailRER').textContent = Math.round(rer) + ' 千卡';
-    document.getElementById('detailCoeff').textContent = coeff.toFixed(1);
-    document.getElementById('resultNoteContent').innerHTML =
+    els.resultIcon.textContent = state.petType === 'dog' ? '🐶' : '🐱';
+    els.resultValue.textContent = Math.round(mer);
+    els.detailPet.textContent = state.petType === 'dog' ? '犬' : '猫';
+    els.detailWeight.textContent = state.weight + ' kg';
+    els.detailRER.textContent = Math.round(rer) + ' 千卡';
+    els.detailCoeff.textContent = coeff.toFixed(1);
+    els.resultNoteContent.innerHTML =
         '* MER = RER × 推导系数<br>' +
         '* RER = 70 × ' + state.weight + 'kg<sup>0.75</sup> = ' + Math.round(rer) + ' 千卡<br>' +
         '* 推导系数 = ' + coeff.toFixed(1) + ' /明细/ → ' + trail;
 
-    renderBrandSuggestions(); // 渲染品牌建议表
+    renderBrandSuggestions();
 }
 
-// 喂食量计算功能
+// ========== 喂食量计算 ==========
 function renderBrandSuggestions() {
     const products = PRODUCT_DATA[state.petType];
     const adjustedMER = currentMER * CALORIE_DEFICIT_RATIO;
-    const tbody = document.getElementById('suggestionBody');
 
-    tbody.innerHTML = products.map(product => {
+    els.suggestionBody.innerHTML = products.map(product => {
         const packs = roundToHalf(adjustedMER / product.kcal);
         const isAverage = product.name === '平均数据';
         return `
@@ -387,51 +417,48 @@ function renderBrandSuggestions() {
 }
 
 function goToFeedingPage() {
-    // 填充 MER 摘要信息
-    document.getElementById('feedingIcon').textContent = state.petType === 'dog' ? '🐶' : '🐱';
-    document.getElementById('feedingMerValue').textContent = Math.round(currentMER);
+    els.feedingIcon.textContent = state.petType === 'dog' ? '🐶' : '🐱';
+    els.feedingMerValue.textContent = Math.round(currentMER);
     renderBrandSuggestions();
-    document.getElementById('progressBar').style.display = 'none';
+    els.progressBar.style.display = 'none';
     showStep(10);
 }
 
 function backToResult() {
-    document.getElementById('progressBar').style.display = '';
+    els.progressBar.style.display = '';
     showStep(9);
 }
 
 function onCustomCalorieInput(e) {
     const kcalPerPack = parseFloat(e.target.value);
-    const resultDiv = document.getElementById('customResult');
 
     if (kcalPerPack > 0 && currentMER > 0) {
         const adjustedMER = currentMER * CALORIE_DEFICIT_RATIO;
         const packs = roundToHalf(adjustedMER / kcalPerPack);
-        resultDiv.innerHTML = `每天建议喂食 <strong>${packs.toFixed(1)} 包</strong>`;
-        resultDiv.classList.add('show');
+        els.customResult.innerHTML = `每天建议喂食 <strong>${packs.toFixed(1)} 包</strong>`;
+        els.customResult.classList.add('show');
     } else {
-        resultDiv.innerHTML = '';
-        resultDiv.classList.remove('show');
+        els.customResult.innerHTML = '';
+        els.customResult.classList.remove('show');
     }
 }
 
-// 四舍五入到 0.5 为单位
 function roundToHalf(value) {
     return Math.round(value * 2) / 2;
 }
 
-// 事件处理
+// ========== 事件处理 ==========
 function selectPet(type) {
     state.petType = type;
     document.querySelectorAll('.pet-card').forEach(c => c.classList.remove('selected'));
     document.querySelector(`.pet-card[data-pet="${type}"]`).classList.add('selected');
-    document.getElementById('btnNext0').disabled = false;
+    els.btnNext0.disabled = false;
 }
 
 function onWeightInput() {
-    const val = parseFloat(document.getElementById('weightInput').value);
+    const val = parseFloat(els.weightInput.value);
     state.weight = val > 0 ? val : null;
-    document.getElementById('btnNext1').disabled = !(val > 0);
+    els.btnNext1.disabled = !(val > 0);
 }
 
 function selectOption(step, key, value) {
@@ -440,7 +467,7 @@ function selectOption(step, key, value) {
     stepEl.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
     const clickedBtn = stepEl.querySelector(`.option-btn[data-value="${value}"]`);
     if (clickedBtn) clickedBtn.classList.add('selected');
-    const btnNext = document.getElementById('btnNext' + step);
+    const btnNext = els['btnNext' + step];
     if (btnNext) btnNext.disabled = false;
     if (key === 'age' || key === 'gender' || key === 'neutered') buildProgressBar();
 }
@@ -460,24 +487,19 @@ function prevStep() {
 function restart() {
     state = { ...INITIAL_STATE };
     currentMER = 0;
-    document.getElementById('weightInput').value = '';
-    document.querySelectorAll('.pet-card').forEach(c => c.classList.remove('selected'));
-    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-    for (let i = 0; i <= 8; i++) {
-        const btn = document.getElementById('btnNext' + i);
-        if (btn) btn.disabled = true;
-    }
-    // 重置喂食量计算区域
-    const customInput = document.getElementById('customCalorieInput');
-    if (customInput) customInput.value = '';
-    const customResult = document.getElementById('customResult');
-    if (customResult) { customResult.innerHTML = ''; customResult.classList.remove('show'); }
-
+    els.weightInput.value = '';
+    document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('[id^="btnNext"]').forEach(btn => btn.disabled = true);
+    els.customCalorieInput.value = '';
+    els.customResult.innerHTML = '';
+    els.customResult.classList.remove('show');
     buildProgressBar();
     showStep(0);
 }
 
-// 初始化
+// ========== 初始化 ==========
+cacheElements();
+
 document.querySelector('.content').addEventListener('click', function(e) {
     const petCard = e.target.closest('.pet-card');
     if (petCard && petCard.dataset.pet) {
@@ -502,11 +524,9 @@ document.querySelector('.content').addEventListener('click', function(e) {
     }
 });
 
-document.getElementById('weightInput').addEventListener('input', onWeightInput);
-
-// 喂食量功能事件监听
-document.getElementById('btnFeedingCalc').addEventListener('click', goToFeedingPage);
-document.getElementById('btnBackResult').addEventListener('click', backToResult);
-document.getElementById('customCalorieInput').addEventListener('input', onCustomCalorieInput);
+els.weightInput.addEventListener('input', onWeightInput);
+els.btnFeedingCalc.addEventListener('click', goToFeedingPage);
+els.btnBackResult.addEventListener('click', backToResult);
+els.customCalorieInput.addEventListener('input', onCustomCalorieInput);
 
 buildProgressBar();
