@@ -242,11 +242,11 @@ const PRODUCT_DATA = {
         { name: '平均数据', grams: 120, kcal: 142 }
     ],
     cat: [
-        { name: '鸡肉鳕鱼', grams: 100, kcal: 107 },
-        { name: '猪肉蓝莓', grams: 100, kcal: 111 },
-        { name: '嫩牛牡蛎', grams: 100, kcal: 127 },
-        { name: '野牧鹿肉', grams: 100, kcal: 132 },
-        { name: '平均数据', grams: 100, kcal: 119 }
+        { name: '鸡肉鳕鱼', grams: 80, kcal: 107 },
+        { name: '猪肉蓝莓', grams: 80, kcal: 111 },
+        { name: '嫩牛牡蛎', grams: 80, kcal: 127 },
+        { name: '野牧鹿肉', grams: 80, kcal: 132 },
+        { name: '平均数据', grams: 80, kcal: 119 }
     ]
 };
 
