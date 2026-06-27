@@ -14,15 +14,14 @@
         <div class="header">
             <div class="header-title-row">
                 <img src="image/header-icon.png" alt="icon" class="header-icon">
-                <div class="header-text">
-                    <h1>uki oki 热量计算器</h1>
-                </div>
+                <h1>uki oki 热量计算器</h1>
             </div>
         </div>
 
         <div class="progress-bar" id="progressBar"></div>
 
         <div class="content">
+            <!-- 步骤 0: 宠物类型 -->
             <div class="step active" id="step-0">
                 <div class="step-title">选择宠物类型</div>
                 <div class="step-desc">请选择您要计算的宠物种类</div>
@@ -41,6 +40,7 @@
                 </div>
             </div>
 
+            <!-- 步骤 1: 体重 -->
             <div class="step" id="step-1">
                 <div class="step-title">输入体重</div>
                 <div class="step-desc">请输入您家宝贝的体重</div>
@@ -54,6 +54,7 @@
                 </div>
             </div>
 
+            <!-- 步骤 2: 性别 -->
             <div class="step" id="step-2">
                 <div class="step-title">性别</div>
                 <div class="step-desc">请选择宝贝的性别</div>
@@ -71,6 +72,7 @@
                 </div>
             </div>
 
+            <!-- 步骤 3: 绝育状态 -->
             <div class="step" id="step-3">
                 <div class="step-title">绝育状态</div>
                 <div class="step-desc">宝贝是否已绝育？</div>
@@ -88,6 +90,7 @@
                 </div>
             </div>
 
+            <!-- 步骤 4-8: 动态步骤（由 JS 渲染） -->
             <div class="step" id="step-4">
                 <div class="step-title" id="step4Title"></div>
                 <div class="step-desc" id="step4Desc"></div>
@@ -99,8 +102,8 @@
             </div>
 
             <div class="step" id="step-5">
-                <div class="step-title">体重情况</div>
-                <div class="step-desc">请选择宝贝的体型状况</div>
+                <div class="step-title" id="step5Title"></div>
+                <div class="step-desc" id="step5Desc"></div>
                 <div class="options" id="bodyOptions"></div>
                 <div class="btn-row">
                     <button class="btn btn-back" data-action="prev">上一步</button>
@@ -109,8 +112,8 @@
             </div>
 
             <div class="step" id="step-6">
-                <div class="step-title">年龄段</div>
-                <div class="step-desc">请选择宝贝所在的年龄段</div>
+                <div class="step-title" id="step6Title"></div>
+                <div class="step-desc" id="step6Desc"></div>
                 <div class="options" id="ageOptions"></div>
                 <div class="btn-row">
                     <button class="btn btn-back" data-action="prev">上一步</button>
@@ -119,7 +122,7 @@
             </div>
 
             <div class="step" id="step-7">
-                <div class="step-title">怀孕与哺乳情况</div>
+                <div class="step-title" id="step7Title"></div>
                 <div class="step-desc" id="pregDesc"></div>
                 <div class="options" id="pregOptions"></div>
                 <div class="btn-row">
@@ -129,8 +132,8 @@
             </div>
 
             <div class="step" id="step-8">
-                <div class="step-title">术后恢复期</div>
-                <div class="step-desc" id="step8Desc">宝贝是否处于术后恢复期？</div>
+                <div class="step-title" id="step8Title"></div>
+                <div class="step-desc" id="step8Desc"></div>
                 <div class="options" id="step8Options"></div>
                 <div class="btn-row">
                     <button class="btn btn-back" data-action="prev">上一步</button>
@@ -138,6 +141,7 @@
                 </div>
             </div>
 
+            <!-- 步骤 9: 结果页 -->
             <div class="step" id="step-9">
                 <div class="result-card">
                     <div class="result-icon" id="resultIcon"></div>
@@ -173,7 +177,7 @@
                 </div>
             </div>
 
-            <!-- 喂食量计算页面 -->
+            <!-- 步骤 10: 喂食量页 -->
             <div class="step" id="step-10">
                 <div class="feeding-page">
                     <div class="feeding-mer-summary">
@@ -182,10 +186,9 @@
                         <div class="feeding-mer-value"><span id="feedingMerValue"></span> 千卡</div>
                     </div>
 
-                    <!-- 自定义热量输入 -->
                     <div class="custom-calorie-section">
                         <div class="section-title">自定义产品热量计算</div>
-                         <div class="brand-note">* 以 MER × 0.95 热量缺口估算</div>
+                        <div class="brand-note">* 以 MER × 0.95 热量缺口估算</div>
                         <div class="custom-calorie-wrapper">
                             <input type="number" class="custom-calorie-input" id="customCalorieInput" placeholder="输入每份能量" min="1" step="1">
                             <span class="custom-calorie-unit">千卡/份</span>
@@ -193,7 +196,6 @@
                         <div class="custom-result" id="customResult"></div>
                     </div>
 
-                    <!-- uki oki 品牌喂食建议表 -->
                     <div class="brand-suggestions">
                         <div class="brand-title">uki oki 品牌鲜食喂食建议</div>
                         <div class="suggestion-table">

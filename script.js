@@ -1,3 +1,16 @@
+// ========== 常量配置 ==========
+const PET_CONFIG = {
+    dog: { icon: '🐶', label: '犬' },
+    cat: { icon: '🐱', label: '猫' }
+};
+
+// 共享术后配置（犬猫相同）
+const POST_SURGERY_OPTIONS = [
+    { value: 'spay', label: '绝育手术后一周内' },
+    { value: 'other', label: '其他重症术后一周内' },
+    { value: 'none', label: '健康状态（非术后）' }
+];
+
 // ========== 动态步骤配置（步骤 4-8）==========
 const STEP_CONFIGS = {
     4: {
@@ -23,6 +36,8 @@ const STEP_CONFIGS = {
     },
     5: {
         dog: {
+            title: '体重情况',
+            desc: '请选择宝贝的体型状况',
             key: 'bodyCondition',
             options: [
                 { value: 'severe', label: '🐷 肥胖<br><small>圆润，俯视无腰身，肋骨摸不到</small>' },
@@ -32,16 +47,20 @@ const STEP_CONFIGS = {
             ]
         },
         cat: {
+            title: '体重情况',
+            desc: '请选择宝贝的体型状况',
             key: 'bodyCondition',
             options: [
-                { value: 'severe', label: '🐷 肥胖<br><small>圆润，俯视无腰身，肋骨摸不到</small>'},
+                { value: 'severe', label: '🐷 肥胖<br><small>圆润，俯视无腰身，肋骨摸不到</small>' },
                 { value: 'normal', label: '🐈 标准<br><small>匀称，腰身明显，肋骨可摸不可见</small>' },
-                { value: 'thin', label: '🐈‍⬛ 偏瘦<br><small>削瘦，腰身极细，肋骨可见</small>'}
+                { value: 'thin', label: '🐈‍⬛ 偏瘦<br><small>削瘦，腰身极细，肋骨可见</small>' }
             ]
         }
     },
     6: {
         dog: {
+            title: '年龄段',
+            desc: '请选择宝贝所在的年龄段',
             key: 'age',
             options: [
                 { value: 'baby', label: '🍼 宝宝（4个月以下）' },
@@ -51,6 +70,8 @@ const STEP_CONFIGS = {
             ]
         },
         cat: {
+            title: '年龄段',
+            desc: '请选择宝贝所在的年龄段',
             key: 'age',
             options: [
                 { value: 'baby', label: '🍼 宝宝（4个月以下）' },
@@ -62,6 +83,7 @@ const STEP_CONFIGS = {
     },
     7: {
         dog: {
+            title: '怀孕与哺乳情况',
             desc: '宝贝目前是否怀孕或哺乳？',
             key: 'pregnant',
             options: [
@@ -71,6 +93,7 @@ const STEP_CONFIGS = {
             ]
         },
         cat: {
+            title: '怀孕与哺乳情况',
             desc: '宝贝目前是否怀孕？',
             key: 'pregnant',
             options: [
@@ -81,22 +104,16 @@ const STEP_CONFIGS = {
     },
     8: {
         dog: {
+            title: '术后恢复期',
             desc: '狗狗是否处于术后恢复期？',
             key: 'postSurgery',
-            options: [
-                { value: 'spay', label: '绝育手术后一周内' },
-                { value: 'other', label: '其他重症术后一周内' },
-                { value: 'none', label: '健康状态（非术后）' }
-            ]
+            options: POST_SURGERY_OPTIONS
         },
         cat: {
+            title: '术后恢复期',
             desc: '猫咪是否处于术后恢复期？',
             key: 'postSurgery',
-            options: [
-                { value: 'spay', label: '绝育手术后一周内' },
-                { value: 'other', label: '其他重症术后一周内' },
-                { value: 'none', label: '健康状态（非术后）' }
-            ]
+            options: POST_SURGERY_OPTIONS
         }
     }
 };
@@ -104,10 +121,10 @@ const STEP_CONFIGS = {
 // DOM 元素 ID 映射
 const STEP_ELEMENT_IDS = {
     4: { title: 'step4Title', desc: 'step4Desc', options: 'step4Options' },
-    5: { options: 'bodyOptions' },
-    6: { options: 'ageOptions' },
-    7: { desc: 'pregDesc', options: 'pregOptions' },
-    8: { desc: 'step8Desc', options: 'step8Options' }
+    5: { title: 'step5Title', desc: 'step5Desc', options: 'bodyOptions' },
+    6: { title: 'step6Title', desc: 'step6Desc', options: 'ageOptions' },
+    7: { title: 'step7Title', desc: 'pregDesc', options: 'pregOptions' },
+    8: { title: 'step8Title', desc: 'step8Desc', options: 'step8Options' }
 };
 
 // ========== 系数计算规则链 ==========
@@ -232,6 +249,7 @@ const PRODUCT_DATA = {
         { name: '平均数据', grams: 100, kcal: 119 }
     ]
 };
+
 const CALORIE_DEFICIT_RATIO = 0.95;
 
 // ========== 状态管理 ==========
@@ -254,8 +272,10 @@ function cacheElements() {
         'btnNext0', 'btnNext1', 'btnNext2', 'btnNext3', 'btnNext4',
         'btnNext5', 'btnNext6', 'btnNext7', 'btnNext8',
         'step4Title', 'step4Desc', 'step4Options',
-        'bodyOptions', 'ageOptions', 'pregDesc', 'pregOptions',
-        'step8Desc', 'step8Options',
+        'step5Title', 'step5Desc', 'bodyOptions',
+        'step6Title', 'step6Desc', 'ageOptions',
+        'step7Title', 'pregDesc', 'pregOptions',
+        'step8Title', 'step8Desc', 'step8Options',
         'resultIcon', 'resultValue', 'detailPet', 'detailWeight',
         'detailRER', 'detailCoeff', 'resultNoteContent',
         'btnFeedingCalc', 'btnBackResult',
@@ -265,9 +285,18 @@ function cacheElements() {
     ids.forEach(id => els[id] = document.getElementById(id));
 }
 
+// ========== 工具函数 ==========
+function getPetConfig() {
+    return PET_CONFIG[state.petType];
+}
+
+function roundToHalf(value) {
+    return Math.round(value * 2) / 2;
+}
+
 // ========== 流程控制 ==========
 function getStepFlow() {
-    let flow = [0, 1, 2, 3, 4, 5, 6];
+    const flow = [0, 1, 2, 3, 4, 5, 6];
     if (state.gender === 'female' && state.neutered === 'no' &&
         (state.age === 'adult' || state.age === 'senior')) {
         flow.push(7);
@@ -374,29 +403,31 @@ function calculateCoefficient() {
         result = rule.apply(state, result);
         trail.push(`${rule.name}: ${result.note}`);
     }
-    return { ...result, trail: trail };
+    return { ...result, trail };
 }
 
 function showResult() {
+    const pet = getPetConfig();
     const { coeff, trail } = calculateCoefficient();
     const rer = 70 * Math.pow(state.weight, 0.75);
     const mer = rer * coeff;
     currentMER = mer;
 
-    els.resultIcon.textContent = state.petType === 'dog' ? '🐶' : '🐱';
+    els.resultIcon.textContent = pet.icon;
     els.resultValue.textContent = Math.round(mer);
-    els.detailPet.textContent = state.petType === 'dog' ? '犬' : '猫';
+    els.detailPet.textContent = pet.label;
     els.detailWeight.textContent = state.weight + ' kg';
     els.detailRER.textContent = Math.round(rer) + ' 千卡';
     els.detailCoeff.textContent = coeff.toFixed(1);
-    var finalStep = trail[trail.length - 1] || '';
-    var stepContent = finalStep.replace(/^[^:]+:\s*/, '');
-    var trailHtml = '<div class="trail-step">→ ' + stepContent + '</div>';
+
+    const finalStep = trail[trail.length - 1] || '';
+    const stepContent = finalStep.replace(/^[^:]+:\s*/, '');
+
     els.resultNoteContent.innerHTML =
         '* MER = RER × 推导系数<br>' +
         '* RER = 70 × ' + state.weight + 'kg<sup>0.75</sup> = ' + Math.round(rer) + ' 千卡<br>' +
         '* 推导系数 = ' + coeff.toFixed(1) +
-        '<div class="trail-list">' + trailHtml + '</div>';
+        '<div class="trail-list"><div class="trail-step">→ ' + stepContent + '</div></div>';
 
     renderBrandSuggestions();
 }
@@ -421,7 +452,8 @@ function renderBrandSuggestions() {
 }
 
 function goToFeedingPage() {
-    els.feedingIcon.textContent = state.petType === 'dog' ? '🐶' : '🐱';
+    const pet = getPetConfig();
+    els.feedingIcon.textContent = pet.icon;
     els.feedingMerValue.textContent = Math.round(currentMER);
     renderBrandSuggestions();
     els.progressBar.style.display = 'none';
@@ -445,10 +477,6 @@ function onCustomCalorieInput(e) {
         els.customResult.innerHTML = '';
         els.customResult.classList.remove('show');
     }
-}
-
-function roundToHalf(value) {
-    return Math.round(value * 2) / 2;
 }
 
 // ========== 事件处理 ==========
@@ -534,11 +562,11 @@ els.btnBackResult.addEventListener('click', backToResult);
 els.customCalorieInput.addEventListener('input', onCustomCalorieInput);
 
 document.querySelector('.result-note').addEventListener('toggle', function(e) {
-    var isOpen = e.target.open;
-    var target = isOpen
+    const isOpen = e.target.open;
+    const target = isOpen
         ? document.getElementById('btnFeedingCalc')
         : document.querySelector('.header-icon');
-    var delay = isOpen ? 200 : 500;
+    const delay = isOpen ? 200 : 500;
     setTimeout(function() {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, delay);

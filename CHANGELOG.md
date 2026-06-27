@@ -2,6 +2,16 @@
 
 ---
 
+## V1.4 — 2026/06/27
+
+### 三核心文件代码优化
+- **script.js**：提取 `PET_CONFIG`、`POST_SURGERY_OPTIONS` 常量，消除重复代码；步骤 5-8 全部配置化；统一 `const/let`；新增 `getPetConfig()` 工具函数
+- **index.html**：移除 `.header-text` 冗余包裹层；步骤 5-8 改为空容器由 JS 动态渲染；添加 HTML 注释分区
+- **style.css**：新增 4 个 CSS 变量（`--bg-card-selected`、`--bg-section-warm`、`--bg-section-cool`、`--border-accent`）；合并 `.btn-back`/`.btn-back-result` 和 `.btn-next`/`.btn-restart` 公共样式；全局替换硬编码色值
+- 零功能变更，纯代码重构
+
+---
+
 ## V1.34 — 2026/06/27
 
 ### 推导过程 & 性别选项优化
