@@ -104,6 +104,11 @@ body {
     min-height: 340px;
 }
 
+#step-10 .feeding-page {
+    padding-top: 0;
+    margin-top: -8px;
+}
+
 .step { display: none; animation: fadeIn 0.4s ease; }
 .step.active { display: block; }
 
@@ -111,6 +116,15 @@ body {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 平滑滚动 */
+html { scroll-behavior: smooth; }
+.container { -webkit-overflow-scrolling: touch; }
 
 .step-title { font-size: 18px; font-weight: 700; color: var(--brand-dark); margin-bottom: 6px; }
 .step-desc { font-size: 13px; color: var(--text-gray); margin-bottom: 22px; }
@@ -137,6 +151,7 @@ body {
 }
 
 .pet-card:hover { transform: translateY(-2px); }
+.pet-card:active { transform: scale(0.97); transition: transform 0.1s ease; }
 .pet-card .icon { font-size: 48px; margin-bottom: 10px; }
 .pet-card .label { font-size: 16px; font-weight: 600; color: var(--brand-dark); }
 
@@ -165,6 +180,11 @@ body {
 }
 
 .option-btn.selected { font-weight: 600; }
+
+.option-btn:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+}
 
 .option-btn .dot {
     width: 20px;
@@ -250,6 +270,11 @@ body {
     transition: all 0.3s ease;
 }
 
+.btn:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+}
+
 .btn-back {
     background: var(--grad-gray-btn);
     color: var(--text-muted);
@@ -301,9 +326,31 @@ body {
 }
 
 /* ========== 结果页 ========== */
-.result-card { text-align: center; padding: 10px 0; }
-.result-icon { font-size: 56px; margin-bottom: 12px; }
-.result-label { font-size: 14px; color: var(--text-gray); margin-bottom: 8px; }
+.result-card { text-align: center; padding: 4px 0; }
+
+/* 结果页阶梯入场动画 */
+#step-9.active .result-icon,
+#step-9.active .result-label,
+#step-9.active .result-value,
+#step-9.active .result-unit {
+    animation: fadeInUp 0.5s ease both;
+}
+
+#step-9.active .result-details {
+    animation: fadeInUp 0.5s ease 0.15s both;
+}
+
+#step-9.active .result-note {
+    animation: fadeInUp 0.5s ease 0.25s both;
+}
+
+#step-9.active .btn-restart,
+#step-9.active .result-disclaimer {
+    animation: fadeInUp 0.5s ease 0.35s both;
+}
+
+.result-icon { font-size: 44px; margin-bottom: 8px; }
+.result-label { font-size: 14px; color: var(--text-gray); margin-bottom: 4px; }
 
 .result-value {
     font-size: 48px;
@@ -315,13 +362,13 @@ body {
     line-height: 1.2;
 }
 
-.result-unit { font-size: 16px; color: var(--text-gray); margin-top: 4px; }
+.result-unit { font-size: 16px; color: var(--text-gray); margin-top: 2px; }
 
 .result-details {
-    margin-top: 22px;
+    margin-top: 14px;
     background: linear-gradient(135deg, #fafde8 0%, #f5f7d0 100%);
     border-radius: 12px;
-    padding: 16px;
+    padding: 12px;
     text-align: left;
     border-left: 3px solid var(--brand-yellow);
 }
@@ -329,7 +376,7 @@ body {
 .result-details .detail-row {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0;
+    padding: 4px 0;
     font-size: 14px;
     color: var(--brand-dark);
 }
@@ -339,19 +386,19 @@ body {
 .result-details .detail-value { font-weight: 600; color: var(--brand-dark); }
 
 .result-note {
-    margin-top: 14px;
+    margin-top: 10px;
     background: linear-gradient(135deg, var(--bg-light) 0%, #fafde8 100%);
     border-left: 3px solid #e5eace;
     border-radius: 12px;
     font-size: 13px;
     color: var(--brand-dark);
-    line-height: 1.7;
+    line-height: 1.6;
     text-align: left;
     overflow: hidden;
 }
 
 .result-note summary {
-    padding: 10px 14px;
+    padding: 8px 12px;
     cursor: pointer;
     font-weight: 600;
     list-style: none;
@@ -379,7 +426,7 @@ body {
 .result-note-wrapper {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: grid-template-rows 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .result-note[open] .result-note-wrapper { grid-template-rows: 1fr; }
@@ -388,7 +435,7 @@ body {
     overflow: hidden;
     min-height: 0;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
 }
 
 .result-note[open] .result-note-content {
@@ -396,10 +443,10 @@ body {
     transition-delay: 0.1s;
 }
 
-#resultNoteContent { padding: 0 14px 12px; }
+#resultNoteContent { padding: 0 12px 10px; }
 
 .result-disclaimer {
-    margin-top: 16px;
+    margin-top: 10px;
     font-size: 12px;
     color: var(--text-light);
     line-height: 1.6;
@@ -440,12 +487,30 @@ body {
 
 /* ========== 喂食量页面 ========== */
 .feeding-page { text-align: center; }
-.feeding-mer-summary { margin-bottom: 24px; }
-.feeding-icon { font-size: 48px; margin-bottom: 12px; }
-.feeding-mer-text { font-size: 14px; color: var(--text-gray); margin-bottom: 8px; }
+
+/* 喂食量页阶梯入场动画 */
+#step-10.active .feeding-mer-summary {
+    animation: fadeInUp 0.5s ease both;
+}
+
+#step-10.active .custom-calorie-section {
+    animation: fadeInUp 0.5s ease 0.12s both;
+}
+
+#step-10.active .brand-suggestions {
+    animation: fadeInUp 0.5s ease 0.24s both;
+}
+
+#step-10.active .btn-row {
+    animation: fadeInUp 0.5s ease 0.36s both;
+}
+
+.feeding-mer-summary { margin-bottom: 18px; }
+.feeding-icon { font-size: 38px; margin-bottom: 8px; }
+.feeding-mer-text { font-size: 14px; color: var(--text-gray); margin-bottom: 4px; }
 
 .feeding-mer-value {
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 800;
     background: var(--grad-result-text);
     -webkit-background-clip: text;
@@ -456,28 +521,28 @@ body {
 
 /* ========== 自定义热量输入 ========== */
 .custom-calorie-section {
-    margin-bottom: 20px;
+    margin-bottom: 14px;
     background: linear-gradient(135deg, #fafde8 0%, #f5f7d0 100%);
     border-radius: 12px;
-    padding: 16px;
+    padding: 10px 12px;
     border-left: 3px solid var(--brand-yellow);
     text-align: left;
 }
 
 .section-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--brand-green);
-    margin-bottom: 12px;
+    margin-bottom: 6px;
 }
 
-.custom-calorie-wrapper { position: relative; margin-bottom: 12px; }
+.custom-calorie-wrapper { position: relative; margin-bottom: 6px; }
 
 .custom-calorie-input {
     width: 100%;
     border: 2px solid var(--text-light);
     border-radius: 10px;
-    padding: 12px 70px 12px 14px;
+    padding: 8px 60px 8px 12px;
     font-size: 16px;
     font-weight: 600;
     color: var(--brand-dark);
@@ -499,6 +564,7 @@ body {
     font-size: 13px;
     color: var(--text-gray);
     font-weight: 500;
+    pointer-events: none;
 }
 
 .custom-result {
@@ -516,11 +582,11 @@ body {
 
 /* ========== 品牌建议表 ========== */
 .brand-suggestions {
-    margin-bottom: 20px;
+    margin-bottom: 14px;
     background: linear-gradient(135deg, var(--bg-light) 0%, #fafde8 100%);
     border-left: 3px solid #e5eace;
     border-radius: 12px;
-    padding: 16px;
+    padding: 12px;
     color: var(--brand-dark);
     text-align: left;
 }
@@ -529,7 +595,7 @@ body {
     font-size: 15px;
     font-weight: 700;
     color: var(--brand-dark);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .brand-note {

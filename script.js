@@ -529,4 +529,13 @@ els.btnFeedingCalc.addEventListener('click', goToFeedingPage);
 els.btnBackResult.addEventListener('click', backToResult);
 els.customCalorieInput.addEventListener('input', onCustomCalorieInput);
 
+document.querySelector('.result-note').addEventListener('toggle', function(e) {
+    var target = e.target.open
+        ? document.getElementById('btnFeedingCalc')
+        : document.querySelector('.header');
+    setTimeout(function() {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+});
+
 buildProgressBar();
