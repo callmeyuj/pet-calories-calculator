@@ -374,7 +374,7 @@ function calculateCoefficient() {
         result = rule.apply(state, result);
         trail.push(`${rule.name}: ${result.note}`);
     }
-    return { ...result, trail: trail.join(' → ') };
+    return { ...result, trail: trail };
 }
 
 function showResult() {
@@ -389,10 +389,14 @@ function showResult() {
     els.detailWeight.textContent = state.weight + ' kg';
     els.detailRER.textContent = Math.round(rer) + ' 千卡';
     els.detailCoeff.textContent = coeff.toFixed(1);
+    var finalStep = trail[trail.length - 1] || '';
+    var stepContent = finalStep.replace(/^[^:]+:\s*/, '');
+    var trailHtml = '<div class="trail-step">→ ' + stepContent + '</div>';
     els.resultNoteContent.innerHTML =
         '* MER = RER × 推导系数<br>' +
         '* RER = 70 × ' + state.weight + 'kg<sup>0.75</sup> = ' + Math.round(rer) + ' 千卡<br>' +
-        '* 推导系数 = ' + coeff.toFixed(1) + ' /明细/ → ' + trail;
+        '* 推导系数 = ' + coeff.toFixed(1) +
+        '<div class="trail-list">' + trailHtml + '</div>';
 
     renderBrandSuggestions();
 }
@@ -530,12 +534,14 @@ els.btnBackResult.addEventListener('click', backToResult);
 els.customCalorieInput.addEventListener('input', onCustomCalorieInput);
 
 document.querySelector('.result-note').addEventListener('toggle', function(e) {
-    var target = e.target.open
+    var isOpen = e.target.open;
+    var target = isOpen
         ? document.getElementById('btnFeedingCalc')
-        : document.querySelector('.header');
+        : document.querySelector('.header-icon');
+    var delay = isOpen ? 200 : 500;
     setTimeout(function() {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
+    }, delay);
 });
 
 buildProgressBar();
