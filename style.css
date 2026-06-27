@@ -19,6 +19,8 @@
     --grad-green: linear-gradient(135deg, var(--brand-green) 0%, var(--brand-green-light) 100%);
     --grad-gray-btn: linear-gradient(135deg, #e8e6e1 0%, var(--text-light) 100%);
     --grad-gray-hover: linear-gradient(135deg, #e8e4dd 0%, var(--text-light) 100%);
+    --grad-back-btn: linear-gradient(135deg, #d8d5ce 0%, #c8c3ba 100%);
+    --grad-back-hover: linear-gradient(135deg, #ccc9c1 0%, #bbb6ac 100%);
     --grad-result-text: linear-gradient(135deg, var(--brand-green) 0%, var(--brand-green-light) 40%, var(--brand-yellow) 100%);
 
     /* 背景色 */
@@ -281,8 +283,8 @@ html { scroll-behavior: smooth; }
 /* 灰色按钮（返回） */
 .btn-back,
 .btn-back-result {
-    background: var(--grad-gray-btn);
-    color: var(--text-muted);
+    background: var(--grad-back-btn);
+    color: var(--brand-dark);
 }
 
 .btn-back { flex: 0.6; }
@@ -290,9 +292,9 @@ html { scroll-behavior: smooth; }
 
 .btn-back:hover,
 .btn-back-result:hover {
-    background: var(--grad-gray-hover);
+    background: var(--grad-back-hover);
     color: var(--brand-dark);
-    box-shadow: 0 4px 12px rgba(33, 35, 34, 0.08);
+    box-shadow: 0 4px 12px rgba(33, 35, 34, 0.12);
 }
 
 /* 黄色按钮（下一步/重新开始） */
@@ -343,15 +345,11 @@ html { scroll-behavior: smooth; }
     display: inline-block;
     width: 14px;
     height: 14px;
-    background: url('image/back-normal-arrow.png') center/contain no-repeat;
+    background: url('image/back-hover-arrow.png') center/contain no-repeat;
     vertical-align: middle;
     margin-right: 4px;
 }
 
-.btn-back:hover::before,
-.btn-back-result:hover::before {
-    background-image: url('image/back-hover-arrow.png');
-}
 
 /* ========== 结果页 ========== */
 .result-card { text-align: center; padding: 4px 0; }
