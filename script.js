@@ -260,7 +260,7 @@ function cacheElements() {
         'btnNext0', 'btnNext1', 'btnNext2', 'btnNext3',
         'resultIcon', 'resultValue', 'detailPet', 'detailWeight',
         'detailRER', 'detailCoeff', 'resultNoteContent',
-        'btnFeedingCalc', 'btnBackResult', 'feedingBtnWrapper',
+        'btnFeedingCalc', 'feedingBtnWrapper',
         'feedingIcon', 'feedingMerValue', 'suggestionBody',
         'customCalorieInput', 'customResult'
     ];
@@ -490,11 +490,6 @@ function goToFeedingPage() {
     showStep(10);
 }
 
-function backToResult() {
-    dom.progressBar.style.display = '';
-    showStep(9);
-}
-
 function onCustomCalorieInput(e) {
     const kcalPerPack = parseFloat(e.target.value);
 
@@ -592,7 +587,6 @@ document.querySelector('.content').addEventListener('click', function(e) {
 
 dom.weightInput.addEventListener('input', onWeightInput);
 dom.btnFeedingCalc.addEventListener('click', goToFeedingPage);
-dom.btnBackResult.addEventListener('click', backToResult);
 dom.customCalorieInput.addEventListener('input', onCustomCalorieInput);
 
 document.querySelector('.result-note').addEventListener('toggle', function(e) {
