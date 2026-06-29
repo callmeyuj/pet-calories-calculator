@@ -658,26 +658,37 @@ html { scroll-behavior: smooth; }
 .result-note summary:hover { background: rgba(224, 231, 33, 0.12); }
 
 .result-note-wrapper {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.result-note[open] .result-note-wrapper { grid-template-rows: 1fr; }
+.result-note[open] .result-note-wrapper {
+    max-height: 500px; /* 足够大的值 */
+}
 
 .result-note-content {
-    overflow: hidden;
-    min-height: 0;
     opacity: 0;
-    transition: opacity 0.25s ease;
+    padding: 0 12px;
+    transition: opacity 0.35s ease, padding 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .result-note[open] .result-note-content {
     opacity: 1;
-    transition-delay: 0.15s;
+    padding: 0 12px 10px;
+    transition: opacity 0.35s ease 0.1s, padding 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-#resultNoteContent { padding: 0 12px 10px; }
+/* 收起动画状态 */
+.result-note.closing .result-note-wrapper {
+    max-height: 0;
+}
+
+.result-note.closing .result-note-content {
+    opacity: 0;
+    padding: 0 12px;
+    transition-delay: 0s;
+}
 
 .trail-list {
     margin-top: 8px;

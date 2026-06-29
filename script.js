@@ -589,15 +589,47 @@ dom.weightInput.addEventListener('input', onWeightInput);
 dom.btnFeedingCalc.addEventListener('click', goToFeedingPage);
 dom.customCalorieInput.addEventListener('input', onCustomCalorieInput);
 
-document.querySelector('.result-note').addEventListener('toggle', function(e) {
-    const isOpen = e.target.open;
-    const target = isOpen
-        ? document.getElementById('btnFeedingCalc')
-        : document.querySelector('.header-icon');
-    const delay = isOpen ? 200 : 1000;
-    setTimeout(function() {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, delay);
+// result-note 展开/收起动画
+const resultNote = document.querySelector('.result-note');
+const resultNoteSummary = resultNote.querySelector('summary');
+const resultNoteWrapper = resultNote.querySelector('.result-note-wrapper');
+const headerIcon = document.querySelector('.header-icon');
+
+resultNoteSummary.addEventListener('click', function(e) {
+    e.preventDefault();
+
+    if (resultNote.open) {
+        // 关闭：先播放收起动画
+        resultNote.classList.add('closing');
+
+        // 等动画真正结束再关闭（监听 max-height）
+        let closed = false;
+        const onCloseEnd = (e) => {
+            if (closed || e.propertyName !== 'max-height') return;
+            closed = true;
+            resultNote.open = false;
+            resultNote.classList.remove('closing');
+            resultNoteWrapper.removeEventListener('transitionend', onCloseEnd);
+            headerIcon.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        resultNoteWrapper.addEventListener('transitionend', onCloseEnd);
+
+        // 兜底：如果 transitionend 没触发，600ms 后强制关闭
+        setTimeout(() => {
+            if (!closed) {
+                closed = true;
+                resultNote.open = false;
+                resultNote.classList.remove('closing');
+                resultNoteWrapper.removeEventListener('transitionend', onCloseEnd);
+            }
+        }, 600);
+    } else {
+        // 展开：直接打开
+        resultNote.open = true;
+        setTimeout(() => {
+            dom.btnFeedingCalc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 200);
+    }
 });
 
 buildProgressBar();
