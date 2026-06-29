@@ -594,7 +594,7 @@ document.querySelector('.result-note').addEventListener('toggle', function(e) {
     const target = isOpen
         ? document.getElementById('btnFeedingCalc')
         : document.querySelector('.header-icon');
-    const delay = isOpen ? 200 : 500;
+    const delay = isOpen ? 200 : 1000;
     setTimeout(function() {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, delay);
