@@ -204,12 +204,12 @@ const STEP_CONFIGS = {
 
 | Remote | 地址 |
 |--------|------|
-| `origin` | `git@github.com:callmeyuj/test-pet-calories-calculator.git` |
-| `pet-calories` | `git@github.com:callmeyuj/pet-calories-calculator.git` |
+| `origin` | `git@github.com:callmeyuj/pet-calories-calculator.git` |
+| `test-repo` | `git@github.com:callmeyuj/test-pet-calories-calculator.git` |
 
 同时推送两个 remote：
 ```bash
-git push origin main && git push pet-calories main
+git push origin main && git push test-repo main
 ```
 
 ---

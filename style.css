@@ -10,7 +10,6 @@
     --brand-yellow-darker: #a3a814;
     --brand-yellow-deep: #c0c61a;
     --brand-yellow-progress: #d4da1f;
-    --brand-teal: #4A6A6A;
     --border-decorative: #dab1da;
     --border-sky: #90d5ff;
 
@@ -44,23 +43,8 @@
     --grad-back-hover: linear-gradient(135deg, #ccc9c1 0%, #bbb6ac 100%);
     --grad-result-text: linear-gradient(135deg, var(--brand-green) 0%, var(--brand-green-light) 40%, var(--brand-yellow) 100%);
 
-    /* 间距 */
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-
-    /* 圆角 */
-    --radius-sm: 6px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-xl: 24px;
-
     /* 过渡 */
-    --transition-fast: 0.2s ease;
     --transition-base: 0.3s ease;
-    --transition-slow: 0.5s ease;
 }
 
 /* ========== 基础重置 ========== */
@@ -1108,7 +1092,7 @@ html { scroll-behavior: smooth; }
 .highlight-mer {
     font-size: 48px;
     font-weight: 800;
-    color: var(--brand-yellow);
+    color: var(--brand-green);
     line-height: 1;
 }
 
@@ -1122,14 +1106,14 @@ html { scroll-behavior: smooth; }
 .highlight-packs {
     font-size: 24px;
     font-weight: 800;
-    color: var(--brand-teal);
+    color: var(--brand-green);
     line-height: 1;
 }
 
 .highlight-brand {
     font-size: 12px;
     font-weight: 700;
-    color: var(--brand-teal);
+    color: var(--brand-green);
     white-space: nowrap;
 }
 

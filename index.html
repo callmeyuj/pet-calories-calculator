@@ -152,7 +152,7 @@
 
                     <div class="custom-calorie-section">
                         <div class="section-title">自定义产品热量计算</div>
-                        <div class="brand-note">* 以 MER × 0.95 热量缺口估算</div>
+                        <div class="brand-note">* 以 MER × 0.90 热量缺口估算</div>
                         <div class="custom-calorie-wrapper">
                             <input type="number" class="custom-calorie-input" id="customCalorieInput" placeholder="输入每份能量" min="1" step="1" inputmode="numeric" aria-label="自定义产品热量">
                             <span class="custom-calorie-unit">千卡/份</span>
@@ -200,12 +200,13 @@
                 <span class="main-text" id="snapshotLine1">我家小狗一天要摄入</span>
             </div>
             <div class="snapshot-main-line2">
-                <span class="highlight-mer" id="snapshotMer">760</span>
+                <!-- 以下为占位值，分享时由 updateSnapshotData() 动态更新 -->
+                <span class="highlight-mer" id="snapshotMer">0</span>
                 <span class="highlight-unit">千卡</span>
             </div>
             <div class="snapshot-main-line3">
                 <span class="main-text">能炫</span>
-                <span class="highlight-packs" id="snapshotPacks">4.4</span>
+                <span class="highlight-packs" id="snapshotPacks">0</span>
                 <span class="highlight-unit">包</span>
                 <span class="highlight-brand">uki oki 鲜食！</span>
             </div>
