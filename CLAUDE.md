@@ -4,6 +4,18 @@
 
 ---
 
+## 文档说明
+
+| 文档 | 定位 | 核心问题 |
+|------|------|----------|
+| **CLAUDE.md**（本文件） | 项目快照 | 项目是什么？现在在哪？怎么改？ |
+| **CHANGELOG.md** | 版本历史 | 过去做了什么？什么时候做的？ |
+| **harness.md** | 行为守则 | 改代码时遵守什么规矩？ |
+
+**信息流向**：`harness.md`（规矩）→ 指导迭代 → `CHANGELOG.md`（详细记录）→ 摘要到 `CLAUDE.md`（当前状态）
+
+---
+
 ## 项目概述
 
 纯前端项目（HTML + CSS + JS），无框架依赖。
@@ -59,12 +71,80 @@ Step 0: 宠物类型 → Step 1: 体重 → Step 2: 性别 → Step 3: 绝育
 → Step 9: 结果页 → Step 10: 喂食量页
 ```
 
-### 产品数据（不可改动）
+### 产品数据
 
 | 宠物 | 产品 | 克数 | 热量 |
 |------|------|------|------|
-| 犬 | 鸡肉鳕鱼/猪肉蓝莓/嫩牛牡蛎/野牧鹿肉/平均 | 120g | 121/149/144/154/142 kcal |
+| 犬 | 鸡肉鳕鱼/猪肉蓝莓/牛肉牡蛎/珍萃鹿肉/鸭肉冬瓜梨/平均 | 120g | 121/149/144/154/130/140 kcal |
 | 猫 | 鸡肉鳕鱼/猪肉蓝莓/嫩牛牡蛎/野牧鹿肉/平均 | 80g | 107/111/127/132/119 kcal |
+
+> 注：鸭肉冬瓜梨仅犬类有，猫咪无此口味
+
+---
+
+## 模块结构（代码地图）
+
+### index.html 模块
+
+| 模块 | 行号范围 | 说明 |
+|------|----------|------|
+| Head | 1-12 | meta、title、favicon、CSS/JS 引入 |
+| Container | 14-183 | 主容器 |
+| ├ Header | 15-20 | 品牌图标 + 标题 |
+| ├ Progress Bar | 22 | 进度条容器 |
+| ├ Step 0 | 26-42 | 宠物类型选择（静态） |
+| ├ Step 1 | 45-56 | 体重输入（静态） |
+| ├ Step 2 | 59-74 | 性别选择（静态） |
+| ├ Step 3 | 77-92 | 绝育状态（静态） |
+| ├ Step 4-8 | 94 | JS 动态生成（注释标记） |
+| ├ Step 9 | 97-132 | 结果页（静态） |
+| └ Step 10 | 135-181 | 喂食量页（静态） |
+| Snapshot Card | 186-219 | 快照卡片（屏外隐藏，供截图） |
+| Toast | 222 | 提示信息 |
+| Image Preview | 225-229 | 图片预览弹窗 |
+
+### script.js 模块
+
+| 模块 | 行号范围 | 关键函数/常量 |
+|------|----------|---------------|
+| 常量配置 | 1-11 | `PET_CONFIG`, `POST_SURGERY_OPTIONS` |
+| 步骤配置 | 13-118 | `STEP_CONFIGS`（步骤 4-8 配置） |
+| 产品数据 | 120-138 | `PRODUCT_DATA`, `CALORIE_DEFICIT_RATIO` |
+| 状态管理 | 140-149 | `INITIAL_STATE`, `state`, `currentStep`, `currentMER` |
+| DOM 缓存 | 151-171 | `dom`, `cacheElements()` |
+| 工具函数 | 173-193 | `getPetConfig()`, `roundToHalf()`, `formatPacks()`, `isMobile()`, `toggleSelection()` |
+| 图片处理 | 195-253 | `convertImagesToBase64()`, `captureSnapshot()`, `downloadImage()`, `showImagePreview()`, `showPreviewFallback()` |
+| 规则工厂 | 255-267 | `createPostSurgeryRule()` |
+| 系数规则链 | 269-358 | `COEFFICIENT_RULES`（犬 5 条 / 猫 6 条） |
+| 流程控制 | 360-385 | `getStepFlow()`, `getStepKey()`, `navigateStep()` |
+| UI 渲染 | 387-478 | `renderStepOptions()`, `buildProgressBar()`, `updateProgress()`, `showStep()`, `configureStep()`, `restoreSelection()` |
+| 业务逻辑 | 480-546 | `calculateCoefficient()`, `showResult()`, `renderBrandSuggestions()`, `updateSnapshotData()` |
+| 事件处理 | 548-604 | `selectPet()`, `onWeightInput()`, `selectOption()`, `restart()`, `goToFeedingPage()`, `onCustomCalorieInput()` |
+| 分享逻辑 | 606-646 | `handleShare()` |
+| Toast | 648-654 | `showToast()` |
+| 初始化 | 656-697 | `initDynamicSteps()`, `initFireflies()` |
+| 事件绑定 | 699-774 | 内容区事件委托、输入监听、展开/收起动画、图片预览 |
+
+### style.css 模块
+
+| 模块 | 行号范围 | 说明 |
+|------|----------|------|
+| CSS 变量 | 1-48 | 品牌色、背景、边框、文字、渐变、过渡 |
+| 基础重置 | 50-64 | `*`, `body` |
+| 容器 | 66-77 | `.container` |
+| 头部 | 79-107 | `.header`, `.header-title-row`, `.header-icon`, `h1` |
+| 进度条 | 109-130 | `.progress-bar`, `.progress-step` |
+| 内容区 | 132-156 | `.content`, `.step`, 动画定义 |
+| 宠物卡片 | 158-182 | `.pet-options`, `.pet-card` |
+| 选项按钮 | 184-245 | `.options`, `.option-btn`, `.dot`, `.option-label` |
+| 体重输入 | 247-283 | `.weight-input-wrapper`, `.weight-input`, `.weight-unit` |
+| 按钮系统 | 285-386 | `.btn-row`, `.btn`, `.btn-back`, `.btn-next`, `.btn-restart`, 箭头伪元素 |
+| 喂食按钮特效 | 388-538 | 微光、光晕、萤火虫动画 |
+| 结果页 | 540-686 | `.result-card`, `.result-details`, `.result-note`, 阶梯动画 |
+| 喂食量页 | 688-825 | `.feeding-page`, `.custom-calorie-section`, `.brand-suggestions`, 建议表 |
+| 分享功能 | 827-984 | 重新计算按钮、分享/商城按钮、Toast、图片预览 |
+| 快照卡片 | 985-1127 | `.snapshot-card` 及其子元素 |
+| 移动端适配 | 1129-1141 | `@media (max-width: 480px)` |
 
 ---
 
@@ -202,10 +282,12 @@ const STEP_CONFIGS = {
 
 ### Git Remotes（均为 SSH）
 
-| Remote | 地址 |
-|--------|------|
-| `origin` | `git@github.com:callmeyuj/pet-calories-calculator.git` |
-| `test-repo` | `git@github.com:callmeyuj/test-pet-calories-calculator.git` |
+| Remote | 地址 | 用途 | 当前状态 |
+|--------|------|------|----------|
+| `origin` | `git@github.com:callmeyuj/pet-calories-calculator.git` | 生产环境，稳定版 | V3.2 |
+| `test-repo` | `git@github.com:callmeyuj/test-pet-calories-calculator.git` | 测试环境，实验功能 | V3.3（含档案功能） |
+
+**本地状态**：V3.2 + 待推送改动（CHANGELOG 补录、harness 规范更新、文件清理）
 
 同时推送两个 remote：
 ```bash
@@ -216,7 +298,7 @@ git push origin main && git push test-repo main
 
 ## 当前版本
 
-**V3.1** — 2026/06/29（代码优化重构）
+**V3.21** — 2026/08/31（犬类产品数据更新 + 文档规范整理）
 
 ---
 
@@ -233,6 +315,10 @@ git push origin main && git push test-repo main
 
 | 时间 | 内容 |
 |------|------|
+| 2026/08/31 | V3.21 犬类产品数据更新（新增鸭肉冬瓜梨、改名、更新平均值）+ 文档规范整理 + 文件清理 |
+| 2026/08/31 | 本地回退至 V3.2（origin 同步），V3.3 代码已退回，仅保留记录 |
+| 2026/07/16 | V3.3 档案功能 + 全局紧凑化（已退回至 test-repo，本地已撤销） |
+| 2026/07/03 | V3.2 快照卡片优化 + CSS清理 + 热量缺口调整 |
 | 2026/06/29 | V3.1 代码优化重构（提取公共函数、getStepFlow 通用化、死代码清理、CSS 变量化、无障碍增强） |
 | 2026/06/29 | V3.0 分享功能（快照卡片、保存图片、转发好友）+ 代码优化（提取公共函数、DOM 缓存扩展） |
 | 2026/06/28 | V2.1 喂食量页按钮调整（左：重新计算，右：前往商城）+ harness 规范更新 |
