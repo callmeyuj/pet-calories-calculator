@@ -284,10 +284,10 @@ const STEP_CONFIGS = {
 
 | Remote | 地址 | 用途 | 当前状态 |
 |--------|------|------|----------|
-| `origin` | `git@github.com:callmeyuj/pet-calories-calculator.git` | 生产环境，稳定版 | V3.2 |
-| `test-repo` | `git@github.com:callmeyuj/test-pet-calories-calculator.git` | 测试环境，实验功能 | V3.3（含档案功能） |
+| `origin` | `git@github.com:callmeyuj/pet-calories-calculator.git` | 生产环境，稳定版 | V3.21 |
+| `test-repo` | `git@github.com:callmeyuj/test-pet-calories-calculator.git` | 测试环境 | V3.21 |
 
-**本地状态**：V3.2 + 待推送改动（CHANGELOG 补录、harness 规范更新、文件清理）
+**本地状态**：V3.21（与远程同步）
 
 同时推送两个 remote：
 ```bash
