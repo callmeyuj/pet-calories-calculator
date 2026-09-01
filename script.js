@@ -136,7 +136,7 @@ const PRODUCT_DATA = {
     ]
 };
 
-const CALORIE_DEFICIT_RATIO = 0.9;
+const CALORIE_DEFICIT_RATIO = 0.85;
 
 // ========== 状态管理 ==========
 const INITIAL_STATE = {
