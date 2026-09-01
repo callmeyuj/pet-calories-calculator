@@ -40,7 +40,7 @@
 ```
 RER = 70 × 体重(kg)^0.75
 MER = RER × 推导系数
-建议喂食包数 = (MER × 0.95) ÷ 单包热量
+建议喂食包数 = (MER × 0.85) ÷ 单包热量
 ```
 
 ### 系数推导规则
@@ -284,10 +284,10 @@ const STEP_CONFIGS = {
 
 | Remote | 地址 | 用途 | 当前状态 |
 |--------|------|------|----------|
-| `origin` | `git@github.com:callmeyuj/pet-calories-calculator.git` | 生产环境，稳定版 | V3.21 |
-| `test-repo` | `git@github.com:callmeyuj/test-pet-calories-calculator.git` | 测试环境 | V3.21 |
+| `origin` | `git@github.com:callmeyuj/pet-calories-calculator.git` | 生产环境，稳定版 | V3.22 |
+| `test-repo` | `git@github.com:callmeyuj/test-pet-calories-calculator.git` | 测试环境 | V3.22 |
 
-**本地状态**：V3.21（与远程同步）
+**本地状态**：V3.22（与远程同步）
 
 同时推送两个 remote：
 ```bash
@@ -298,7 +298,7 @@ git push origin main && git push test-repo main
 
 ## 当前版本
 
-**V3.21** — 2026/08/31（犬类产品数据更新 + 文档规范整理）
+**V3.22** — 2026/09/01（热量缺口从 0.9 调整为 0.85）
 
 ---
 
@@ -315,6 +315,7 @@ git push origin main && git push test-repo main
 
 | 时间 | 内容 |
 |------|------|
+| 2026/09/01 | V3.22 热量缺口从 0.9 调整为 0.85（犬猫通用，影响建议表及自定义热量输入） |
 | 2026/08/31 | V3.21 犬类产品数据更新（新增鸭肉冬瓜梨、改名、更新平均值）+ 文档规范整理 + 文件清理 |
 | 2026/08/31 | 本地回退至 V3.2（origin 同步），V3.3 代码已退回，仅保留记录 |
 | 2026/07/16 | V3.3 档案功能 + 全局紧凑化（已退回至 test-repo，本地已撤销） |
